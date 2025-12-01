@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Discord UPQ</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+	display: flex;
+	height: 100vh;
+	background-color: #36393f;
+	color: #dcddde;
+	overflow: hidden;
+}
+
+        /* Canales */
+.channels {
+	width: 240px;
+	background-color: #2f3136;
+	display: flex;
+	flex-direction: column;
+}
+
+.server-header {
+	padding: 16px;
+	border-bottom: 1px solid #202225;
+	font-weight: bold;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: #FFD100; /* Amarillo UPQ */
+}
+
+.channel-category {
+	padding: 16px 8px 8px 16px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #8e9297;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.channel {
+	padding: 6px 8px 6px 16px;
+	display: flex;
+	align-items: center;
+	color: #8e9297;
+	cursor: pointer;
+	border-radius: 4px;
+	margin: 0 8px;
+}
+
+.channel:hover {
+	background-color: #36393f;
+	color: #dcddde;
+}
+
+.channel.active {
+	background-color: #40444b;
+	color: #dcddde;
+}
+
+.channel i {
+	margin-right: 6px;
+	font-size: 16px;
+}
+
+.channel-name {
+	font-size: 14px;
+}
+
+        /* Chat */
+.chat {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	background-color: #36393f;
+}
+
+.chat-header {
+	padding: 16px;
+	border-bottom: 1px solid #202225;
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+	color: #FFD100; /* Amarillo UPQ */
+}
+
+.chat-header i {
+	margin-right: 8px;
+	color: #FFD100; /* Amarillo UPQ */
+}
+
+.messages {
+	flex: 1;
+	padding: 16px;
+	overflow-y: auto;
+}
+
+.message {
+	display: flex;
+	margin-bottom: 16px;
+}
+
+.avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.message-content {
+	flex: 1;
+}
+
+.message-header {
+	display: flex;
+	align-items: center;
+	margin-bottom: 4px;
+}
+
+.username {
+	font-weight: 600;
+	margin-right: 8px;
+}
+
+.timestamp {
+	font-size: 12px;
+	color: #72767d;
+}
+
+.message-text {
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+.message-input {
+	padding: 16px;
+	background-color: #40444b;
+	border-radius: 8px;
+	margin: 16px;
+	display: flex;
+	align-items: center;
+}
+
+.message-input input {
+	flex: 1;
+	background-color: transparent;
+	border: none;
+	color: #dcddde;
+	font-size: 16px;
+	padding: 8px;
+	outline: none;
+}
+
+.message-input i {
+	margin: 0 8px;
+	color: #b9bbbe;
+	cursor: pointer;
+}
+
+        /* Usuarios */
+.users {
+	width: 240px;
+	background-color: #2f3136;
+	padding: 16px;
+	overflow-y: auto;
+}
+
+.user-section {
+	margin-bottom: 24px;
+}
+
+.section-title {
+	font-size: 12px;
+	font-weight: 600;
+	color: #8e9297;
+	margin-bottom: 8px;
+}
+
+.user {
+	display: flex;
+	align-items: center;
+	padding: 6px 8px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.user:hover {
+	background-color: #36393f;
+}
+
+.user-avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	margin-right: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.user-name {
+	font-size: 14px;
+	color: #8e9297;
+}
+
+.user.online .user-name {
+	color: #dcddde;
+}
+
+.status {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	margin-left: auto;
+}
+
+.online .status {
+	background-color: #3ba55c;
+}
+
+.idle .status {
+	background-color: #FFD100; /* Amarillo UPQ */
+}
+
+.dnd .status {
+	background-color: #ed4245;
+}
+
+        /* Colores específicos para cada carrera */
+.mecatronica {
+	background-color: #722F37; /* Vino */
+}
+
+.administracion {
+	background-color: #FF0000; /* Rojo */
+}
+
+.negocios {
+	background-color: #000000; /* Negro */
+}
+
+.datos {
+	background-color: #32CD32; /* Verde lima */
+}
+        
+.redes {
+	background-color: #00FFFF; /* Azul cian */
+	color: #000;
+}
+        
+.manufactura {
+	background-color: #000080; /* Azul oscuro */
+}
+
+.automotriz {
+	background-color: #800080; /* Morado */
+}
+
+.empty-chat {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: #72767d;
+	text-align: center;
+	padding: 20px;
+}
+
+.empty-chat i {
+	font-size: 48px;
+	margin-bottom: 16px;
+	color: #40444b;
+}
+
+.typing-indicator {
+	padding: 10px 16px;
+	color: #72767d;
+	font-style: italic;
+	font-size: 14px;
+}
+</style>
+</head>
+<body>
+<!-- Canales -->
+<div class="channels">
+<div class="server-header">
+<span>UPQ Comunidad</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="channel-category">
+<span>CANALES DE TEXTO</span>
+<i class="fas fa-plus"></i>
+</div>
+<div class="channel active" data-channel="general">
+<i class="fas fa-hashtag"></i>
+<span class="channel-name">general</span>
+</div>
+	<div class="channel" data-channel="noticias">
+            <i class="fas fa-hashtag"></i>
+            <span class="channel-name">noticias</span>
+	</div>
+	<div class="channel" data-channel="ventas-manana">
+            <i class="fas fa-hashtag"></i>
+            <span class="channel-name">ventas-de-la-mañana</span>
+	</div>
+	<div class="channel" data-channel="ventas-tarde">
+            <i class="fas fa-hashtag"></i>
+            <span class="channel-name">ventas-de-la-tarde</span>
+	</div>
+	<div class="channel" data-channel="materias">
+            <i class="fas fa-hashtag"></i>
+            <span class="channel-name">materias</span>
+	</div>
+	<div class="channel" data-channel="asesorias">
+            <i class="fas fa-hashtag"></i>
+            <span class="channel-name">asesorías</span>
+	</div>
+	<div class="channel" data-channel="objetos-perdidos">
+          <i class="fas fa-hashtag"></i>
+            <span class="channel-name">objetos-perdidos</span>
+	</div>
+	<div class="channel-category">
+		<span>CANALES DE VOZ</span>
+		<i class="fas fa-plus"></i>
+	</div>
+	<div class="channel">
+		<i class="fas fa-volume-up"></i>
+		<span class="channel-name">Estudio grupal</span>
+	</div>
+	<div class="channel">
+		<i class="fas fa-volume-up"></i>
+		<span class="channel-name">Charla casual</span>
+</div>
+</div>
+
+	<!-- Chat -->
+	<div class="chat">
+		<div class="chat-header">
+			<i class="fas fa-hashtag"></i>
+			<span>general</span>
+	</div>
+	<div class="messages">
+		<div class="empty-chat">
+			<i class="fas fa-comments"></i>
+                <h3>Bienvenido al canal #general</h3>
+                <p>Este es el inicio del canal general. ¡Envía un mensaje para comenzar!</p>
+            </div>
+	</div>
+	<div class="message-input">
+            <input type="text" placeholder="Escribe un mensaje en #general" id="message-input">
+            <i class="fas fa-grin"></i>
+            <i class="fas fa-at"></i>
+	</div>
+</div>
+
+<!-- Usuarios (carreras de la UPQ) -->
+<div class="users">
+	<div class="user-section">
+            <div class="section-title">EN LÍNEA — 7</div>
+            <div class="user online">
+                <div class="user-avatar mecatronica">FE</div>
+                <div class="user-name">Fernando</div>
+                <div class="status"></div>
+            </div>
+            <div class="user online">
+                <div class="user-avatar automotriz">JO</div>
+                <div class="user-name">Joceline</div>
+                <div class="status"></div>
+            </div>
+            <div class="user online">
+                <div class="user-avatar manufactura">MD</div>
+                <div class="user-name">ManufDavid</div>
+                <div class="status"></div>
+            </div>
+            <div class="user online">
+                <div class="user-avatar redes">RE</div>
+                <div class="user-name">Renata</div>
+                <div class="status"></div>
+            </div>
+            <div class="user online">
+                <div class="user-avatar datos">YA</div>
+                <div class="user-name">Yasmin</div>
+                <div class="status"></div>
+            </div>
+            <div class="user online">
+                <div class="user-avatar administracion">DA</div>
+                <div class="user-name">Daniela</div>
+                <div class="status"></div>
+            </div>
+            <div class="user online">
+                <div class="user-avatar negocios">SO</div>
+                <div class="user-name">Sofía</div>
+                <div class="status"></div>
+            </div>
+	</div>
+</div>
+
+<script>
+	const emptyChannels = ['noticias', 'ventas-manana', 'ventas-tarde', 'materias', 'asesorias', 'objetos-perdidos'];
+
+const userBuildings = {
+	'Fernando': 'A',
+	'Joceline': 'C',
+	'ManufDavid': 'F',
+	'Renata': 'D',
+	'Yasmin': 'A',
+	'Daniela': 'A',
+	'Sofia': 'B'
+};
+
+function getCurrentTime() {
+	const now = new Date();
+	return `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+}
+        
+function addMessage(user, avatarClass, initials, message) {
+	const messagesContainer = document.querySelector('.messages');
+	const emptyChat = messagesContainer.querySelector('.empty-chat');
+            
+if (emptyChat) {
+	emptyChat.remove();
+}
+
+		const newMessage = document.createElement('div');
+		newMessage.className = 'message';
+		newMessage.innerHTML = `
+			<div class="avatar ${avatarClass}">${initials}</div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <span class="username">${user}</span>
+                        <span class="timestamp">Hoy a las ${getCurrentTime()}</span>
+                    </div>
+                    <div class="message-text">${message}</div>
+                </div>
+            `;
+            messagesContainer.appendChild(newMessage);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function showTypingIndicator(user) {
+	const messagesContainer = document.querySelector('.messages');
+	let typingIndicator = messagesContainer.querySelector('.typing-indicator');
+            
+if (!typingIndicator) {
+	typingIndicator = document.createElement('div');
+	typingIndicator.className = 'typing-indicator';
+	messagesContainer.appendChild(typingIndicator);
+}
+
+	typingIndicator.textContent = `${user} está escribiendo...`;
+	messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+	return typingIndicator;
+}
+
+function processBuildingQuestion() {
+	const messagesContainer = document.querySelector('.messages');
+	const emptyChat = messagesContainer.querySelector('.empty-chat');
+
+if (emptyChat) {
+	emptyChat.remove();
+}
+
+setTimeout(() => {
+	const typingIndicator = showTypingIndicator('Fernando');
+
+	setTimeout(() => {
+                    typingIndicator.remove();
+                    addMessage('Fernando', 'mecatronica', 'FE', `Estoy en el edificio ${userBuildings['Fernando']}`);
+                    
+                    setTimeout(() => {
+                        const typingIndicator2 = showTypingIndicator('Joceline');
+                        
+                        setTimeout(() => {
+                            typingIndicator2.remove();
+                            addMessage('Joceline', 'automotriz', 'JO', `Yo estoy en el edificio ${userBuildings['Joceline']}`);
+                            
+                            setTimeout(() => {
+                                const typingIndicator3 = showTypingIndicator('ManufDavid');
+                                
+                                setTimeout(() => {
+                                    typingIndicator3.remove();
+                                    addMessage('ManufDavid', 'manufactura', 'MD', `Nosotros estamos en el edificio ${userBuildings['ManufDavid']}`);
+                                    
+                                    setTimeout(() => {
+                                        const typingIndicator4 = showTypingIndicator('Renata');
+                                        
+                                        setTimeout(() => {
+                                            typingIndicator4.remove();
+                                            addMessage('Renata', 'redes', 'RE', `Yo en el edificio ${userBuildings['Renata']}`);
+                                            
+                                            setTimeout(() => {
+                                                const typingIndicator5 = showTypingIndicator('Yasmin');
+                                                
+                                                setTimeout(() => {
+                                                    typingIndicator5.remove();
+                                                    addMessage('Yasmin', 'datos', 'YA', `Estoy en el edificio ${userBuildings['Yasmin']}`);
+                                                    
+                                                    setTimeout(() => {
+                                                        const typingIndicator6 = showTypingIndicator('Daniela');
+                                                        
+                                                        setTimeout(() => {
+                                                            typingIndicator6.remove();
+                                                            addMessage('Daniela', 'administracion', 'DA', `Yo en el edificio ${userBuildings['Daniela']}`);
+                                                            
+                                                            setTimeout(() => {
+                                                                const typingIndicator7 = showTypingIndicator('Sofía');
+                                                                
+                                                                setTimeout(() => {
+                                                                    typingIndicator7.remove();
+                                                                    addMessage('Sofía', 'negocios', 'SO', `Estoy en el edificio ${userBuildings['Sofía']}`);
+                                                                }, 1000);
+													}, 1000);
+												}, 1000);
+											}, 1000);
+										}, 1000);
+									}, 1000);
+								}, 1000);
+							}, 1000);
+						}, 1000);
+					}, 1000);
+				}, 1000);
+			}, 1000);
+		}, 1500);
+	}, 500);
+}
+
+document.querySelectorAll('.channel').forEach(channel => {
+	channel.addEventListener('click', function() {
+		document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+		this.classList.add('active');
+
+		const channelName = this.querySelector('.channel-name').textContent;
+		document.querySelector('.chat-header span').textContent = channelName;
+		document.querySelector('#message-input').placeholder = `Escribe un mensaje en #${channelName}`;
+
+		const currentChannel = this.getAttribute('data-channel');
+
+		const messagesContainer = document.querySelector('.messages');
+		messagesContainer.innerHTML = '';
+
+		if (emptyChannels.includes(currentChannel) || currentChannel === 'general') {
+			messagesContainer.innerHTML = `
+			<div class="empty-chat">
+			<i class="fas fa-comments"></i>
+			<h3>Bienvenido al canal #${channelName}</h3>
+			<p>Este es el inicio del canal ${channelName}. ¡Envía un mensaje para comenzar!</p>
+			</div>
+			`;
+		}
+	});
+});
+
+document.querySelector('#message-input').addEventListener('keypress', function(e) {
+	if (e.key === 'Enter') {
+		const messageText = this.value.trim();
+		if (messageText) {
+			addMessage('Tú', 'mecatronica', 'TÚ', messageText);
+                    
+                    // Verificar si el mensaje es exactamente "En que edificio van?"
+                    if (messageText.toLowerCase() === 'en que edificio van?') {
+                        processBuildingQuestion();
+			}
+                    
+                    this.value = '';
+}
+}
+});
+</script>
+</body>
+</html>
